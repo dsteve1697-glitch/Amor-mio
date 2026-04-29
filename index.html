@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Amor mío ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    background:black;
+    color:white;
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+}
+
+.intro{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    z-index:100;
+}
+
+.textoIntro{
+    font-size:1.8em;
+    max-width:80%;
+}
+
+.container{
+    display:none;
+    text-align:center;
+    padding:30px;
+    max-width:800px;
+    margin:auto;
+    animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.mensaje{
+    background:rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:15px;
+    margin-top:20px;
+    line-height:1.6;
+}
+
+.btn{
+    margin-top:20px;
+    padding:12px 20px;
+    border:none;
+    border-radius:25px;
+    background:#ff7eb3;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#ff4f95;
+    transform:scale(1.05);
+}
+
+.countdown{
+    margin-top:20px;
+    color:#ff7eb3;
+    font-size:1.3em;
+}
+
+.heart{
+    position:fixed;
+    color:#ff7eb3;
+    animation:subir 6s linear;
+    pointer-events:none;
+}
+
+@keyframes subir{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);opacity:0;}
+}
+
+/* MENSAJE TOQUE PANTALLA */
+.tapMessage{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(255,255,255,0.1);
+    padding:10px 15px;
+    border-radius:20px;
+    font-size:14px;
+    color:#ff7eb3;
+    z-index:200;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div class="intro" id="intro">
+    <div class="textoIntro" id="textoIntro"></div>
+</div>
+
+<!-- MENSAJE TOQUE -->
+<div class="tapMessage" id="tapMessage">
+    Toca la pantalla para activar la música 🎵
+</div>
+
+<!-- CONTENIDO -->
+<div class="container" id="contenido">
+
+    <h1>✨ Bienvenida a los 30 ✨</h1>
+
+    <div class="mensaje">
+        <p><strong>Amor mío…</strong></p>
+        <p>No solo es tú cumpleaños, es el inicio de una nueva etapa llena de sueños.</p>
+        <p>Y quiero comenzarla contigo de una forma especial…</p>
+
+        <p style="color:#ff7eb3;">
+            🎶 Un concierto juntos de Yatra 🎶
+        </p>
+
+        <p>📅 Jueves 30 de abril de 2026</p>
+
+        <p>Que esta etapa esté llena de amor, risas y momentos inolvidables.</p>
+        <p>Esto es solo el comienzo… ❤️</p>
+
+        <p>
+            <br>
+            <strong>Danny, Dejha y Lina 💕</strong><br>
+            Te amamos
+        </p>
+    </div>
+
+    <div class="countdown" id="countdown"></div>
+
+    <button class="btn" onclick="abrirInstagram()">
+        Ver nuestros recuerdos 📸
+    </button>
+
+</div>
+
+<!-- MÚSICA -->
+<iframe id="musica" width="0" height="0" allow="autoplay"></iframe>
+
+<script>
+
+// ELEMENTOS
+const intro = document.getElementById("intro");
+const contenido = document.getElementById("contenido");
+const textoIntro = document.getElementById("textoIntro");
+const countdown = document.getElementById("countdown");
+const musica = document.getElementById("musica");
+const tapMessage = document.getElementById("tapMessage");
+
+// INSTAGRAM
+const instagramLink = "https://www.instagram.com/p/C46pQgqMqem0iA-iAd7R2IFBd8G-XL9vOMb7_Y0/?igsh=MTloOXo5cjMyZmk4cw==";
+
+// INTRO
+const mensaje="Amor mío… lo mejor está por comenzar ❤️";
+let i=0;
+
+function escribir(){
+    if(i < mensaje.length){
+        textoIntro.innerHTML += mensaje[i];
+        i++;
+        setTimeout(escribir,50);
+    }else{
+        setTimeout(()=>{
+            intro.style.display="none";
+            contenido.style.display="block";
+        },2000);
+    }
+}
+escribir();
+
+// 🎵 ACTIVAR MÚSICA CON TOQUE DE PANTALLA
+function activarMusica(){
+    musica.src = "https://www.youtube.com/embed/Qz9gmiLBVFA?autoplay=1&loop=1&playlist=Qz9gmiLBVFA";
+    tapMessage.style.display = "none";
+}
+
+// Detecta cualquier toque o clic
+document.addEventListener("click", activarMusica, { once: true });
+document.addEventListener("touchstart", activarMusica, { once: true });
+
+// COUNTDOWN
+const evento = new Date("2026-04-30T20:00:00").getTime();
+
+setInterval(()=>{
+    let now = new Date().getTime();
+    let d = evento - now;
+
+    if(d <= 0){
+        countdown.innerHTML = "🎉 ¡El gran día ha llegado!";
+        return;
+    }
+
+    let dias = Math.floor(d/(1000*60*60*24));
+    let h = Math.floor((d%(1000*60*60*24))/(1000*60*60));
+    let m = Math.floor((d%(1000*60*60))/(1000*60));
+
+    countdown.innerHTML = `⏳ Faltan ${dias} días, ${h} horas y ${m} minutos`;
+},1000);
+
+// INSTAGRAM
+function abrirInstagram(){
+    window.open(instagramLink, "_blank");
+}
+
+// CORAZONES
+setInterval(()=>{
+    let h = document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left = Math.random()*100+"vw";
+    h.style.fontSize = (Math.random()*20+10)+"px";
+
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),6000);
+},600);
+
+</script>
+
+</body>
+</html>
